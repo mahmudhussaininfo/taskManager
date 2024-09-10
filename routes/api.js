@@ -20,9 +20,19 @@ router.get("/emailVerify/:email", UsersController.emailVerify);
 router.post("/resetPassword", UsersController.resetPassword);
 
 //task routes
-router.post("/create-task", TaskController.createTask);
-router.post("/update-task", TaskController.updateTask);
-router.post("/delete-task", TaskController.deleteTask);
+router.post("/create-task", AuthMiddleware, TaskController.createTask);
+router.get(
+  "/update-task/:id/:status",
+  AuthMiddleware,
+  TaskController.updateTask
+);
+router.get(
+  "/tasklistStatus/:status",
+  AuthMiddleware,
+  TaskController.taskListByStatus
+);
+router.get("/delete-task/:id", AuthMiddleware, TaskController.deleteTask);
+router.get("/task-count", AuthMiddleware, TaskController.countTasks);
 
 //export
 export default router;
